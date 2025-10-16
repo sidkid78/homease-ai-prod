@@ -1,0 +1,97 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Helper Functions ---
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isUser(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function getUserData(userId) {
+      return get(/databases/$(database)/documents/users/$(userId)).data;
+    }
+
+    function isRole(role) {
+      let userRole = getUserData(request.auth.uid).role;
+      return userRole == role;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && isRole('admin');
+    }
+
+    // --- Collection Rules ---
+
+    // USERS: Users can manage their own profile. Admins have full access.
+    // Public contractor data is readable by anyone signed in.
+    match /users/{userId} {
+      allow read: if isSignedIn() && (isUser(userId) || getUserData(userId).role == 'contractor');
+      allow create: if isSignedIn() && request.resource.data.uid == request.auth.uid;
+      allow update: if isUser(userId) || isAdmin();
+      // No user should be able to delete their own account via a direct API call.
+      allow delete: if isAdmin();
+    }
+
+    // LEADS: Homeowners can create/manage their own leads. Matched contractors can read them.
+    match /leads/{leadId} {
+      allow read: if isSignedIn() && (
+                    isUser(resource.data.homeownerId) ||
+                    request.auth.uid in resource.data.matchedContractorIds ||
+                    isAdmin()
+                  );
+      allow create: if isSignedIn() && isRole('homeowner') &&
+                     request.resource.data.homeownerId == request.auth.uid;
+      allow update: if isSignedIn() && (isUser(resource.data.homeownerId) || isAdmin());
+      allow delete: if isSignedIn() && (isUser(resource.data.homeownerId) || isAdmin());
+    }
+
+    // AR-ASSESSMENTS: Only the creating user and admins can access.
+    match /ar-assessments/{assessmentId} {
+      allow read, write: if isSignedIn() && (isUser(resource.data.userId) || isAdmin());
+      allow create: if isSignedIn() && isRole('homeowner') &&
+                     request.resource.data.userId == request.auth.uid;
+    }
+
+    // PROJECTS: Only the involved homeowner, contractor, or an admin can access.
+    match /projects/{projectId} {
+      allow read, write: if isSignedIn() && (
+                           isUser(resource.data.homeownerId) ||
+                           isUser(resource.data.contractorId) ||
+                           isAdmin()
+                         );
+      // Project creation is handled by server-side logic (Cloud Function), not direct client access.
+      allow create: if isAdmin(); // Or a specific server role if configured
+    }
+
+    // CHATS & MESSAGES: Only participants in the chat can read/write messages.
+    match /chats/{chatId} {
+      // Allow reading/writing the chat document metadata if you are a participant.
+      allow read, write: if isSignedIn() && request.auth.uid in resource.data.participantIds;
+
+      // Rules for the messages subcollection
+      match /messages/{messageId} {
+        allow read, create: if isSignedIn() &&
+                             request.auth.uid in get(/databases/$(database)/documents/chats/$(chatId)).data.participantIds;
+        // Messages are immutable once sent.
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    // REVIEWS: Homeowners can create reviews for projects they were part of.
+    // Reviews are public to read but cannot be modified after creation except by an admin.
+    match /reviews/{reviewId} {
+      allow read: if true; // Reviews are public
+      allow create: if isSignedIn() && isRole('homeowner') &&
+                     // Verify the user was the homeowner on the completed project.
+                     get(/databases/$(database)/documents/projects/$(request.resource.data.projectId)).data.homeownerId == request.auth.uid &&
+                     get(/databases/$(database)/documents/projects/$(request.resource.data.projectId)).data.status == 'completed';
+      // Reviews are immutable by users.
+      allow update, delete: if isAdmin();
+    }
+  }
+}

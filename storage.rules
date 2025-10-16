@@ -1,0 +1,30 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // Public user profile pictures
+    match /profile-pictures/{userId}/{allPaths=**} {
+      allow read;
+      allow write: if request.auth.uid == userId;
+    }
+
+    // Secure contractor vetting documents
+    match /contractor-vetting-docs/{userId}/{allPaths=**} {
+      // The user can upload their own documents.
+      // An admin can read/write to manage the documents.
+      allow read, write: if request.auth.uid == userId || 
+                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // AR assessment data for homeowners
+    match /ar-assessments/{userId}/{allPaths=**} {
+      allow read, write: if request.auth.uid == userId;
+    }
+
+    // Deny all other access by default
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}
