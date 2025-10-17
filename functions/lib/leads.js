@@ -86,7 +86,7 @@ exports.onLeadCreated = functions.pubsub
         let matchedContractors = contractorsSnapshot.docs.map(doc => (Object.assign({ id: doc.id }, doc.data())));
         // Filter by specialty if provided
         if (requiredSpecialties && requiredSpecialties.length > 0) {
-            matchedContractors = matchedContractors.filter(c => requiredSpecialties.every(spec => { var _a, _b; return (_b = (_a = c.contractorProfile) === null || _a === void 0 ? void 0 : _a.specialties) === null || _b === void 0 ? void 0 : _b.includes(spec); }));
+            matchedContractors = matchedContractors.filter((c) => requiredSpecialties.every((spec) => { var _a, _b; return (_b = (_a = c.contractorProfile) === null || _a === void 0 ? void 0 : _a.specialties) === null || _b === void 0 ? void 0 : _b.includes(spec); }));
         }
         // Sort by rating (descending) and then by number of reviews
         matchedContractors.sort((a, b) => {
@@ -127,7 +127,7 @@ exports.onLeadCreated = functions.pubsub
 });
 // Initialize Stripe with secret key from environment variables
 const stripe = new stripe_1.default(process.env.STRIPE_SECRET_KEY, {
-    apiVersion: "2024-04-10",
+    // apiVersion: "2024-04-10", // Removed for now to avoid type conflict
     typescript: true,
 });
 /**
@@ -206,7 +206,7 @@ async function handleCheckoutSessionCompleted(session) {
         transaction.set(transactionRef, {
             contractorId,
             leadId,
-            amount: session.amount_total,
+            amount: session.amount_total, // amount_total is in cents
             currency: session.currency,
             stripePaymentIntentId: session.payment_intent,
             createdAt: new Date(),

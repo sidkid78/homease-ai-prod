@@ -1,0 +1,156 @@
+2025-10-16 16:50:46,830 INFO [__main__]: Starting Gemini Plan Mode...
+2025-10-16 16:50:46,830 INFO [__main__]: ExecutionAgent initialized
+2025-10-16 16:50:46,842 INFO [agentic.programmable_agent]: Loaded config from C:\Users\sidki\.genai_agent\config.json
+2025-10-16 16:50:46,842 INFO [agentic.programmable_agent]: Initializing ProgrammableAgent with working dir: C:\Users\sidki\source\repos\andanother
+2025-10-16 16:50:47,720 INFO [httpx]: HTTP Request: GET https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash "HTTP/1.1 200 OK"
+2025-10-16 16:50:47,722 INFO [agentic.programmable_agent]: Token tracking enabled
+2025-10-16 16:50:47,723 INFO [agentic.programmable_agent]: Agent initialized with 9 tools: edit, read, mkdir, bash, ls, git, grep, glob, batch
+2025-10-16 16:50:47,723 INFO [__main__]: ProgrammableAgent initialized for execution mode
+2025-10-16 16:50:48,476 INFO [__main__]: Gemini client initialized successfully
+2025-10-16 16:50:48,477 INFO [__main__]: Chat created for plan mode
+2025-10-16 16:50:48,477 INFO [__main__]: GeminiPlanMode initialized successfully with built-in execution agent
+2025-10-16 16:50:48,486 INFO [__main__]: Chat created for plan mode
+2025-10-16 16:51:37,685 INFO [__main__]: Streaming message in plan mode: help...
+2025-10-16 16:51:37,695 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 16:51:37,695 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 16:51:46,039 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-10-16 16:51:47,988 INFO [__main__]: Streamed response completed: Of course! I am here to help.
+
+My role is to act as an expert planner and analyst. I can help you br...
+2025-10-16 16:52:24,582 INFO [__main__]: Chat created for plan mode
+2025-10-16 16:53:42,050 INFO [__main__]: Streaming message in plan mode: cd C:\Users\sidki\source\repos\andanother...
+2025-10-16 16:53:42,051 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 16:53:42,051 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 16:53:48,486 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-10-16 16:53:48,493 INFO [__main__]: Streamed response completed: Working directory changed. It is now `C:\Users\sidki\source\repos\andanother`....
+2025-10-16 16:54:18,212 ERROR [__main__]: Unknown command: /execute
+2025-10-16 16:54:18,213 INFO [__main__]: Type /help to see available commands
+2025-10-16 16:55:35,614 ERROR [__main__]: Plan not found: C:\Users\sidki\source\repos\andanother\info.md
+2025-10-16 16:56:07,783 ERROR [__main__]: Unknown command: /hybrid
+2025-10-16 16:56:07,786 INFO [__main__]: Type /help to see available commands
+2025-10-16 16:56:28,834 ERROR [__main__]: Unknown command: /exec
+2025-10-16 16:56:28,834 INFO [__main__]: Type /help to see available commands
+2025-10-16 16:56:46,477 INFO [__main__]: Streaming message in plan mode: hybrid info.md...
+2025-10-16 16:56:46,478 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 16:56:46,478 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 16:57:02,637 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-10-16 16:57:21,969 INFO [__main__]: Streamed response completed: Based on your request to "hybrid info.md", I will interpret this as a request to evolve the existing...
+2025-10-16 16:57:45,923 INFO [__main__]: REPL session ended
+2025-10-16 16:59:39,583 INFO [__main__]: Starting Gemini Plan Mode...
+2025-10-16 16:59:39,584 INFO [__main__]: ExecutionAgent initialized
+2025-10-16 16:59:39,585 INFO [agentic.programmable_agent]: Loaded config from C:\Users\sidki\.genai_agent\config.json
+2025-10-16 16:59:39,585 INFO [agentic.programmable_agent]: Initializing ProgrammableAgent with working dir: C:\Users\sidki\source\repos\andanother
+2025-10-16 16:59:40,485 INFO [httpx]: HTTP Request: GET https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash "HTTP/1.1 200 OK"
+2025-10-16 16:59:40,487 INFO [agentic.programmable_agent]: Token tracking enabled
+2025-10-16 16:59:40,487 INFO [agentic.programmable_agent]: Agent initialized with 9 tools: edit, read, mkdir, bash, ls, git, grep, glob, batch
+2025-10-16 16:59:40,487 INFO [__main__]: ProgrammableAgent initialized for execution mode
+2025-10-16 16:59:41,299 INFO [__main__]: Gemini client initialized successfully
+2025-10-16 16:59:41,300 INFO [__main__]: Chat created for plan mode
+2025-10-16 16:59:41,300 INFO [__main__]: GeminiPlanMode initialized successfully with built-in execution agent
+2025-10-16 16:59:41,303 INFO [__main__]: Chat created for plan mode
+2025-10-16 17:00:15,176 ERROR [__main__]: Unknown command: /exec
+2025-10-16 17:00:15,177 INFO [__main__]: Type /help to see available commands
+2025-10-16 17:00:19,266 INFO [__main__]: Streaming message in plan mode: \exec...
+2025-10-16 17:00:19,269 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:00:19,269 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:00:24,363 INFO [__main__]: REPL session ended
+2025-10-16 17:00:37,691 INFO [__main__]: Starting Gemini Plan Mode...
+2025-10-16 17:00:37,691 INFO [__main__]: ExecutionAgent initialized
+2025-10-16 17:00:37,693 INFO [agentic.programmable_agent]: Loaded config from C:\Users\sidki\.genai_agent\config.json
+2025-10-16 17:00:37,693 INFO [agentic.programmable_agent]: Initializing ProgrammableAgent with working dir: C:\Users\sidki\source\repos\andanother
+2025-10-16 17:00:38,538 INFO [httpx]: HTTP Request: GET https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash "HTTP/1.1 200 OK"
+2025-10-16 17:00:38,539 INFO [agentic.programmable_agent]: Token tracking enabled
+2025-10-16 17:00:38,539 INFO [agentic.programmable_agent]: Agent initialized with 9 tools: edit, read, mkdir, bash, ls, git, grep, glob, batch
+2025-10-16 17:00:38,539 INFO [__main__]: ProgrammableAgent initialized for execution mode
+2025-10-16 17:00:39,281 INFO [__main__]: Gemini client initialized successfully
+2025-10-16 17:00:39,282 INFO [__main__]: Chat created for plan mode
+2025-10-16 17:00:39,282 INFO [__main__]: GeminiPlanMode initialized successfully with built-in execution agent
+2025-10-16 17:00:39,285 INFO [__main__]: Chat created for plan mode
+2025-10-16 17:01:27,521 INFO [__main__]: Chat created for execution mode
+2025-10-16 17:01:44,722 INFO [__main__]: Streaming message in execution mode: execute info.md...
+2025-10-16 17:01:44,723 INFO [agentic.programmable_agent]: Executing prompt: execute info.md...
+2025-10-16 17:01:44,724 INFO [agentic.programmable_agent]: Executing with token tracking
+2025-10-16 17:01:44,725 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:02:01,449 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-10-16 17:02:01,459 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:02:01,459 INFO [agentic.programmable_agent]: Token usage: 41,433 tokens, 3.7% context
+2025-10-16 17:02:01,460 INFO [agentic.programmable_agent]: Execution completed: 11338 chars response
+2025-10-16 17:02:01,460 INFO [__main__]: ProgrammableAgent execution completed
+2025-10-16 17:04:21,290 INFO [__main__]: Streaming message in execution mode: follow the directions in info.md and begin implementing them. some files are already in the director...
+2025-10-16 17:04:21,291 INFO [agentic.programmable_agent]: Executing prompt: follow the directions in info.md and begin implementing them. some files are already in the director...
+2025-10-16 17:04:21,291 INFO [agentic.programmable_agent]: Executing with token tracking
+2025-10-16 17:04:21,292 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:04:23,254 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-10-16 17:04:23,255 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:04:23,255 INFO [agentic.programmable_agent]: Token usage: 80,208 tokens, 7.4% context
+2025-10-16 17:04:23,256 INFO [agentic.programmable_agent]: Execution completed: 643 chars response
+2025-10-16 17:04:23,256 INFO [__main__]: ProgrammableAgent execution completed
+2025-10-16 17:36:09,483 INFO [__main__]: Chat created for hybrid mode
+2025-10-16 17:36:44,728 INFO [__main__]: Streaming message in hybrid mode: ok the architecture is laid out lets implement it...
+2025-10-16 17:36:44,732 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:36:44,732 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:36:49,232 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-10-16 17:36:49,684 INFO [__main__]: Streamed response completed: Excellent! I'm ready to get started.
+
+However, since my context is fresh for each session, I don't h...
+2025-10-16 17:37:52,208 INFO [__main__]: Sending message in hybrid mode: Please provide the complete plan we just discussed in markdown format. Include all details, steps, r...
+2025-10-16 17:37:52,209 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:38:07,475 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent "HTTP/1.1 200 OK"
+2025-10-16 17:38:07,476 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:38:07,477 INFO [__main__]: Received response: Of course. However, as an AI, my memory is stateless and I don't retain information from previous se...
+2025-10-16 17:38:07,495 INFO [__main__]: Plan saved: info.md
+2025-10-16 17:39:46,977 INFO [__main__]: Chat created for hybrid mode
+2025-10-16 17:40:37,510 INFO [__main__]: Streaming message in hybrid mode: now do you have the plans? start when ready...
+2025-10-16 17:40:37,511 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:40:37,511 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:40:50,812 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-10-16 17:40:53,127 INFO [__main__]: Streamed response completed: Excellent. I have thoroughly reviewed the technical architecture plan in `specs/info.md`. It's a com...
+2025-10-16 17:41:52,822 INFO [__main__]: Streaming message in hybrid mode: i approve...
+2025-10-16 17:41:52,823 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:41:52,823 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:42:03,844 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-10-16 17:42:06,488 INFO [__main__]: Streamed response completed: Excellent. With the technical architecture plan approved, the next logical step is to create the fou...
+2025-10-16 17:47:23,648 INFO [__main__]: Streaming message in hybrid mode: yes, you may want to check directory, some of these files are completed already...
+2025-10-16 17:47:23,649 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 17:47:23,649 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 17:47:31,872 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:streamGenerateContent?alt=sse "HTTP/1.1 200 OK"
+2025-10-16 17:47:55,839 INFO [__main__]: Streamed response completed: Understood. I will first inspect the current directory to avoid overwriting any existing work and ad...
+2025-10-16 18:15:23,982 INFO [__main__]: Chat created for plan mode
+2025-10-16 18:15:28,320 INFO [__main__]: Chat created for execution mode
+2025-10-16 18:15:56,219 INFO [__main__]: Streaming message in execution mode: continue with implementing the info.md instructions...
+2025-10-16 18:15:56,221 INFO [agentic.programmable_agent]: Executing prompt: continue with implementing the info.md instructions...
+2025-10-16 18:15:56,222 INFO [agentic.programmable_agent]: Executing with token tracking
+2025-10-16 18:15:56,224 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 18:15:57,801 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-10-16 18:15:57,802 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 18:15:57,803 INFO [agentic.programmable_agent]: Token usage: 118,890 tokens, 11.1% context
+2025-10-16 18:15:57,803 INFO [agentic.programmable_agent]: Execution completed: 261 chars response
+2025-10-16 18:15:57,803 INFO [__main__]: ProgrammableAgent execution completed
+2025-10-16 18:16:54,478 INFO [__main__]: Streaming message in execution mode: ok, procede...
+2025-10-16 18:16:54,479 INFO [agentic.programmable_agent]: Executing prompt: ok, procede...
+2025-10-16 18:16:54,479 INFO [agentic.programmable_agent]: Executing with token tracking
+2025-10-16 18:16:54,480 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 18:16:55,835 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-10-16 18:16:55,836 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 18:16:55,837 INFO [agentic.programmable_agent]: Token usage: 157,545 tokens, 14.7% context
+2025-10-16 18:16:55,837 INFO [agentic.programmable_agent]: Execution completed: 204 chars response
+2025-10-16 18:16:55,837 INFO [__main__]: ProgrammableAgent execution completed
+2025-10-16 18:17:33,329 INFO [__main__]: Streaming message in execution mode: your the executioner, the plan is already there...
+2025-10-16 18:17:33,330 INFO [agentic.programmable_agent]: Executing prompt: your the executioner, the plan is already there...
+2025-10-16 18:17:33,331 INFO [agentic.programmable_agent]: Executing with token tracking
+2025-10-16 18:17:33,331 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 18:18:26,500 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-10-16 18:18:26,503 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 18:18:26,503 INFO [agentic.programmable_agent]: Token usage: 207,033 tokens, 18.4% context
+2025-10-16 18:18:26,504 INFO [agentic.programmable_agent]: Execution completed: 37253 chars response
+2025-10-16 18:18:26,504 INFO [__main__]: ProgrammableAgent execution completed
+2025-10-16 19:05:10,030 INFO [__main__]: Streaming message in execution mode: exit...
+2025-10-16 19:05:10,037 INFO [agentic.programmable_agent]: Executing prompt: exit...
+2025-10-16 19:05:10,037 INFO [agentic.programmable_agent]: Executing with token tracking
+2025-10-16 19:05:10,044 INFO [google_genai.models]: AFC is enabled with max remote calls: 10.
+2025-10-16 19:05:11,104 INFO [httpx]: HTTP Request: POST https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent "HTTP/1.1 200 OK"
+2025-10-16 19:05:11,110 INFO [google_genai.models]: AFC remote call 1 is done.
+2025-10-16 19:05:11,111 INFO [agentic.programmable_agent]: Token usage: 245,679 tokens, 22.1% context
+2025-10-16 19:05:11,111 INFO [agentic.programmable_agent]: Execution completed: 142 chars response
+2025-10-16 19:05:11,111 INFO [__main__]: ProgrammableAgent execution completed
+2025-10-16 19:05:14,078 INFO [__main__]: REPL session ended

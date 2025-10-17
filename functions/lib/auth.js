@@ -46,30 +46,39 @@ if (admin.apps.length === 0) {
  */
 exports.assignRoleOnCreate = functions.auth.user().onCreate(async (user) => {
     const firestore = admin.firestore();
-    const pendingUserRef = firestore.collection("pending_users").doc(user.uid);
+    const pendingRoleRef = firestore.collection("pending-role-assignments").doc(user.uid);
     try {
-        const userDoc = await pendingUserRef.get();
-        if (!userDoc.exists) {
-            functions.logger.warn(`No pending role document found for user: ${user.uid}. Defaulting to 'homeowner'.`);
-            await admin.auth().setCustomUserClaims(user.uid, { role: "homeowner" });
-            return;
-        }
-        const userData = userDoc.data();
-        const role = userData === null || userData === void 0 ? void 0 : userData.role;
-        if (role && ["homeowner", "contractor"].includes(role)) {
-            await admin.auth().setCustomUserClaims(user.uid, { role });
-            functions.logger.info(`Custom claim '${role}' set for user: ${user.uid}`);
+        // Wait a moment for the client to create the document
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        const roleDoc = await pendingRoleRef.get();
+        let role = "homeowner"; // Default role
+        if (roleDoc.exists) {
+            const roleData = roleDoc.data();
+            role = (roleData === null || roleData === void 0 ? void 0 : roleData.role) || "homeowner";
+            // Validate role
+            if (!["homeowner", "contractor", "admin"].includes(role)) {
+                functions.logger.warn(`Invalid role '${role}' for ${user.uid}. Defaulting to 'homeowner'.`);
+                role = "homeowner";
+            }
+            // Clean up the temporary document
+            await pendingRoleRef.delete();
         }
         else {
-            // Default or handle invalid role
-            await admin.auth().setCustomUserClaims(user.uid, { role: "homeowner" });
-            functions.logger.warn(`Invalid or no role specified for ${user.uid}. Defaulting to 'homeowner'.`);
+            functions.logger.warn(`No pending role document found for user: ${user.uid}. Defaulting to 'homeowner'.`);
         }
-        // Clean up the temporary document
-        await pendingUserRef.delete();
+        // Set custom claim
+        await admin.auth().setCustomUserClaims(user.uid, { role });
+        functions.logger.info(`Custom claim '${role}' set for user: ${user.uid}`);
     }
     catch (error) {
         functions.logger.error(`Error setting custom claim for user ${user.uid}`, error);
+        // Set default role even if there's an error
+        try {
+            await admin.auth().setCustomUserClaims(user.uid, { role: "homeowner" });
+        }
+        catch (fallbackError) {
+            functions.logger.error(`Failed to set default role for ${user.uid}`, fallbackError);
+        }
     }
 });
 //# sourceMappingURL=auth.js.map

@@ -1,7 +1,5 @@
 {
   "projects": {
-    "development": "homease-ai-dev",
-    "staging": "homease-ai-staging",
     "production": "homease-ai-prod"
   }
 }

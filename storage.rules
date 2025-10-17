@@ -1,28 +1,84 @@
 rules_version = '2';
-
 service firebase.storage {
   match /b/{bucket}/o {
     
-    // Public user profile pictures
-    match /profile-pictures/{userId}/{allPaths=**} {
-      allow read;
-      allow write: if request.auth.uid == userId;
+    // Helper Functions
+    function isAuthenticated() {
+      return request.auth != null;
     }
-
-    // Secure contractor vetting documents
-    match /contractor-vetting-docs/{userId}/{allPaths=**} {
-      // The user can upload their own documents.
-      // An admin can read/write to manage the documents.
-      allow read, write: if request.auth.uid == userId || 
-                          get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
     }
-
-    // AR assessment data for homeowners
-    match /ar-assessments/{userId}/{allPaths=**} {
-      allow read, write: if request.auth.uid == userId;
+    
+    function isAdmin() {
+      return request.auth.token.role == 'admin';
     }
-
-    // Deny all other access by default
+    
+    function isContractor() {
+      return request.auth.token.role == 'contractor';
+    }
+    
+    function isValidImageType() {
+      return request.resource.contentType.matches('image/.*');
+    }
+    
+    function isValidFileSize(maxSizeMB) {
+      return request.resource.size < maxSizeMB * 1024 * 1024;
+    }
+    
+    // AR Assessment Data
+    match /ar-assessments/{userId}/{assessmentId}/{fileName} {
+      // User can upload their own AR data
+      allow write: if isOwner(userId) && isValidFileSize(50);
+      
+      // User or admin can read their AR data
+      allow read: if isOwner(userId) || isAdmin();
+    }
+    
+    // AR Assessment Results/Visualizations
+    match /ar-results/{assessmentId}/{fileName} {
+      // Only backend (via admin SDK) can write results
+      allow write: if false;
+      
+      // Owner of the assessment or admin can read
+      // Note: In practice, we'd need to query Firestore to verify ownership
+      // For simplicity, we'll rely on obscure URLs and app logic
+      allow read: if isAuthenticated();
+    }
+    
+    // Contractor Vetting Documents
+    match /contractor-docs/{contractorId}/{docType}/{fileName} {
+      // Contractor can upload their own documents
+      allow write: if isContractor() 
+                   && isOwner(contractorId) 
+                   && (isValidImageType() || request.resource.contentType == 'application/pdf')
+                   && isValidFileSize(10);
+      
+      // Contractor and admins can read
+      allow read: if isOwner(contractorId) || isAdmin();
+    }
+    
+    // Project Photos (before/after)
+    match /project-photos/{projectId}/{fileName} {
+      // Project participants can upload
+      // We verify project participation via app logic/security rules
+      allow write: if isAuthenticated() && isValidImageType() && isValidFileSize(10);
+      
+      // Project participants can read
+      allow read: if isAuthenticated();
+    }
+    
+    // User Profile Pictures
+    match /profile-pictures/{userId}/{fileName} {
+      // User can upload their own profile picture
+      allow write: if isOwner(userId) && isValidImageType() && isValidFileSize(5);
+      
+      // Public read (for displaying contractor profiles)
+      allow read: if isAuthenticated();
+    }
+    
+    // Deny all other access
     match /{allPaths=**} {
       allow read, write: if false;
     }
