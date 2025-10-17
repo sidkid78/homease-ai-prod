@@ -4,17 +4,16 @@ export async function GET() {
   const hasFirebaseCredentials = 
     process.env.FIREBASE_PRIVATE_KEY && 
     process.env.FIREBASE_PRIVATE_KEY.includes('BEGIN PRIVATE KEY') &&
-    !process.env.FIREBASE_PRIVATE_KEY.includes('YOUR_PRIVATE_KEY_HERE') &&
     process.env.FIREBASE_CLIENT_EMAIL &&
-    !process.env.FIREBASE_CLIENT_EMAIL.includes('firebase-adminsdk-fbsvc@homease-ai-prod-98385.iam.gserviceaccount.com');
+    process.env.FIREBASE_CLIENT_EMAIL.length > 0;
 
   const hasNextAuthSecret = 
     process.env.NEXTAUTH_SECRET && 
-    process.env.NEXTAUTH_SECRET !== '6aDwHhHtg4aiPFVM7qHDd4KPBOqKnZbLh4USGZghBtY=';
+    process.env.NEXTAUTH_SECRET.length > 20;
 
   const hasGeminiKey = 
     process.env.GEMINI_API_KEY && 
-    process.env.GEMINI_API_KEY !== 'AIzaSyDfDpda9TzNMpvwAvSbh6Xy-gU9snUzVww ';
+    process.env.GEMINI_API_KEY.length > 20;
 
   const status = {
     app: 'HOMEase AI',

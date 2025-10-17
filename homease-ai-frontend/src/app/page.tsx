@@ -6,22 +6,18 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 
 export default async function Home() {
-  try {
-    const session = await getServerSession();
+  const session = await getServerSession();
 
-    // Redirect authenticated users to their dashboard
-    if (session?.user) {
-      const role = session.user.role;
-      if (role === 'homeowner') {
-        redirect('/dashboard/homeowner');
-      } else if (role === 'contractor') {
-        redirect('/dashboard/contractor');
-      } else if (role === 'admin') {
-        redirect('/dashboard/admin');
-      }
+  // Redirect authenticated users to their dashboard
+  if (session?.user) {
+    const role = session.user.role;
+    if (role === 'homeowner') {
+      redirect('/dashboard/homeowner');
+    } else if (role === 'contractor') {
+      redirect('/dashboard/contractor');
+    } else if (role === 'admin') {
+      redirect('/dashboard/admin');
     }
-  } catch (error) {
-    console.warn('Session check failed:', error);
   }
 
   return (

@@ -1,5 +1,5 @@
-import { assignRoleOnCreate } from './auth';
+import { assignRoleOnCreateV2 } from './auth';
 import { arProcessing } from './ar';
 import { onLeadCreated, stripeWebhookHandler } from './leads';
 
-export { assignRoleOnCreate, arProcessing, onLeadCreated, stripeWebhookHandler };
+export { assignRoleOnCreateV2, arProcessing, onLeadCreated, stripeWebhookHandler };

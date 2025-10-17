@@ -56,43 +56,63 @@ export type Specialty =
 // Lead Status
 export type LeadStatus = 'new' | 'matching' | 'matched' | 'sold' | 'completed' | 'cancelled';
 
+// Urgency Level
+export type UrgencyLevel = 'low' | 'medium' | 'high';
+
 // Lead Interface
 export interface Lead {
   id: string;
   homeownerId: string;
-  homeownerName: string;
-  homeownerEmail: string;
-  homeownerPhone?: string;
-  address: Address;
+  homeownerInfo: {
+    name: string;
+    email: string;
+    phone?: string;
+    address: string;
+    city: string;
+    state: string;
+    zip: string;
+    propertyType?: string;
+  };
   arAssessmentId?: string;
   description: string;
   requiredSpecialties: Specialty[];
-  budget?: {
-    min: number;
-    max: number;
-  };
-  timeline?: string;
+  urgency: UrgencyLevel;
+  budgetRange?: string; // e.g., "$1,000 - $5,000"
+  timeline?: string; // e.g., "Within 2 weeks", "1-3 months"
   status: LeadStatus;
-  leadPrice: number; // Price contractors pay for this lead
+  price: number; // Price in cents that contractors pay for this lead
   matchedContractorIds: string[];
   purchasedBy: string[]; // Contractor IDs who purchased
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string; // ISO string for serialization
+  updatedAt?: string;
 }
 
 // AR Assessment Status
 export type AssessmentStatus = 'uploading' | 'processing' | 'complete' | 'failed';
+
+// Room Types
+export type RoomType = 
+  | 'bathroom'
+  | 'bedroom'
+  | 'kitchen'
+  | 'living-room'
+  | 'hallway'
+  | 'stairs'
+  | 'entrance'
+  | 'other';
 
 // AR Assessment Interface
 export interface ARAssessment {
   id: string;
   userId: string;
   status: AssessmentStatus;
+  room: RoomType;
+  description?: string;
   rawDataUrls: string[]; // Cloud Storage URLs
   results?: {
     hazards: Hazard[];
     recommendations: Recommendation[];
-    visualizations?: string[]; // URLs from Fal.ai
+    visualizations?: string[]; // URLs from Gemini image generation
     estimatedCost?: {
       min: number;
       max: number;

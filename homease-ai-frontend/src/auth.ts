@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "@/lib/firebase/config";
-import { adminAuth, adminApp } from "@/lib/firebase/admin";
+import { adminAuth, adminApp, adminDb } from "@/lib/firebase/admin";
 
 export const { handlers, signIn, signOut, auth: getServerSession } = NextAuth({
   // Use Firestore adapter to sync sessions with Firestore
@@ -42,12 +42,21 @@ export const { handlers, signIn, signOut, auth: getServerSession } = NextAuth({
             // Get custom claims (role)
             const token = await userCredential.user.getIdToken();
             const decodedToken = await adminAuth.verifyIdToken(token);
+            let role = decodedToken.role;
+
+            // Fallback: Check Firestore if custom claims aren't set
+            if (!role) {
+              const userDoc = await adminDb.collection('users').doc(userCredential.user.uid).get();
+              if (userDoc.exists) {
+                role = userDoc.data()?.role;
+              }
+            }
 
             return {
               id: userCredential.user.uid,
               email: userCredential.user.email,
               name: userCredential.user.displayName,
-              role: decodedToken.role || 'homeowner',
+              role: role || 'homeowner',
             };
           }
 
@@ -68,7 +77,18 @@ export const { handlers, signIn, signOut, auth: getServerSession } = NextAuth({
           const userId = user.id || user.email?.split('@')[0] || '';
           if (userId) {
             const firebaseUser = await adminAuth.getUser(userId);
-            token.role = firebaseUser.customClaims?.role || 'homeowner';
+            let role = firebaseUser.customClaims?.role;
+            
+            // Fallback: Check Firestore if custom claims aren't set
+            // This handles cases where Cloud Functions haven't been deployed
+            if (!role) {
+              const userDoc = await adminDb.collection('users').doc(userId).get();
+              if (userDoc.exists) {
+                role = userDoc.data()?.role;
+              }
+            }
+            
+            token.role = role || 'homeowner';
           } else {
             token.role = 'homeowner';
           }
@@ -82,7 +102,17 @@ export const { handlers, signIn, signOut, auth: getServerSession } = NextAuth({
       if (trigger === "update" && token.sub) {
         try {
           const firebaseUser = await adminAuth.getUser(token.sub);
-          token.role = firebaseUser.customClaims?.role || token.role;
+          let role = firebaseUser.customClaims?.role;
+          
+          // Fallback: Check Firestore if custom claims aren't set
+          if (!role) {
+            const userDoc = await adminDb.collection('users').doc(token.sub).get();
+            if (userDoc.exists) {
+              role = userDoc.data()?.role;
+            }
+          }
+          
+          token.role = role || token.role;
         } catch (error) {
           console.error("Error refreshing custom claims:", error);
         }

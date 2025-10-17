@@ -62,9 +62,11 @@ export default async function HomeownerDashboard() {
             <p className="text-gray-600 mb-4">
               Use your phone camera to scan your home for accessibility issues
             </p>
-            <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-              Start Assessment
-            </button>
+            <Link href="/dashboard/homeowner/assessments/new">
+              <button className="w-full px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+                Start Assessment
+              </button>
+            </Link>
           </div>
 
           <div className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
@@ -75,9 +77,11 @@ export default async function HomeownerDashboard() {
             <p className="text-gray-600 mb-4">
               View your previous assessments and recommendations
             </p>
-            <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
-              View All
-            </button>
+            <Link href="/dashboard/homeowner/assessments">
+              <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
+                View All
+              </button>
+            </Link>
           </div>
 
           <div className="bg-white rounded-lg shadow p-6 hover:shadow-lg transition-shadow">
@@ -88,8 +92,8 @@ export default async function HomeownerDashboard() {
             <p className="text-gray-600 mb-4">
               Browse vetted contractors in your area
             </p>
-            <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200">
-              Browse
+            <button className="w-full px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200" disabled>
+              Coming Soon
             </button>
           </div>
         </div>

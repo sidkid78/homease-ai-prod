@@ -33,51 +33,54 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.assignRoleOnCreate = void 0;
-const functions = __importStar(require("firebase-functions"));
+exports.assignRoleOnCreateV2 = void 0;
+const firestore_1 = require("firebase-functions/v2/firestore");
+const logger = __importStar(require("firebase-functions/logger"));
 const admin = __importStar(require("firebase-admin"));
 // Initialize Admin SDK if not already done
 if (admin.apps.length === 0) {
     admin.initializeApp();
 }
 /**
- * Triggered on new user creation. Reads the intended role from a
- * 'pending_users' collection and sets it as a custom claim.
+ * 2nd Gen Cloud Function
+ * Triggered when a pending role assignment is created.
+ * Sets the role as a custom claim on the user.
  */
-exports.assignRoleOnCreate = functions.auth.user().onCreate(async (user) => {
-    const firestore = admin.firestore();
-    const pendingRoleRef = firestore.collection("pending-role-assignments").doc(user.uid);
+exports.assignRoleOnCreateV2 = (0, firestore_1.onDocumentCreated)("pending-role-assignments/{userId}", async (event) => {
+    const snapshot = event.data;
+    if (!snapshot) {
+        logger.warn("No data associated with the event");
+        return;
+    }
+    const userId = event.params.userId;
+    const roleData = snapshot.data();
+    let role = (roleData === null || roleData === void 0 ? void 0 : roleData.role) || "homeowner";
     try {
-        // Wait a moment for the client to create the document
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const roleDoc = await pendingRoleRef.get();
-        let role = "homeowner"; // Default role
-        if (roleDoc.exists) {
-            const roleData = roleDoc.data();
-            role = (roleData === null || roleData === void 0 ? void 0 : roleData.role) || "homeowner";
-            // Validate role
-            if (!["homeowner", "contractor", "admin"].includes(role)) {
-                functions.logger.warn(`Invalid role '${role}' for ${user.uid}. Defaulting to 'homeowner'.`);
-                role = "homeowner";
-            }
-            // Clean up the temporary document
-            await pendingRoleRef.delete();
-        }
-        else {
-            functions.logger.warn(`No pending role document found for user: ${user.uid}. Defaulting to 'homeowner'.`);
+        // Validate role
+        if (!["homeowner", "contractor", "admin"].includes(role)) {
+            logger.warn(`Invalid role '${role}' for ${userId}. Defaulting to 'homeowner'.`);
+            role = "homeowner";
         }
         // Set custom claim
-        await admin.auth().setCustomUserClaims(user.uid, { role });
-        functions.logger.info(`Custom claim '${role}' set for user: ${user.uid}`);
+        await admin.auth().setCustomUserClaims(userId, { role });
+        logger.info(`Custom claim '${role}' set for user: ${userId}`);
+        // Also update the user document in Firestore
+        await admin.firestore().collection("users").doc(userId).set({
+            role,
+            updatedAt: admin.firestore.FieldValue.serverTimestamp(),
+        }, { merge: true });
+        // Clean up the temporary document
+        await snapshot.ref.delete();
+        logger.info(`Cleaned up pending role assignment for ${userId}`);
     }
     catch (error) {
-        functions.logger.error(`Error setting custom claim for user ${user.uid}`, error);
+        logger.error(`Error setting custom claim for user ${userId}`, error);
         // Set default role even if there's an error
         try {
-            await admin.auth().setCustomUserClaims(user.uid, { role: "homeowner" });
+            await admin.auth().setCustomUserClaims(userId, { role: "homeowner" });
         }
         catch (fallbackError) {
-            functions.logger.error(`Failed to set default role for ${user.uid}`, fallbackError);
+            logger.error(`Failed to set default role for ${userId}`, fallbackError);
         }
     }
 });
