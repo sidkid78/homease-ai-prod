@@ -11,7 +11,15 @@ const protectedRoutes = {
 };
 
 export async function middleware(request: NextRequest) {
-  const session = await getServerSession();
+  // Get session - with Node.js runtime, firebase-admin can now be used
+  let session = null;
+  try {
+    session = await getServerSession();
+  } catch (error) {
+    // Session check failed (missing env vars in development)
+    console.warn('Middleware session check failed:', error);
+  }
+  
   const { pathname } = request.nextUrl;
 
   // Check if route is protected
@@ -59,6 +67,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
+  // Next.js 15.5+: Use Node.js runtime for middleware to support Firebase Admin SDK
+  runtime: 'nodejs',
   matcher: [
     /*
      * Match all request paths except:

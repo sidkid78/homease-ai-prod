@@ -1,5 +1,6 @@
 {
   "projects": {
-    "production": "homease-ai-prod"
+    "default": "homease-ai-prod-98385",
+    "production": "homease-ai-prod-98385"
   }
 }

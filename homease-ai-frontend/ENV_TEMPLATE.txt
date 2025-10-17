@@ -1,0 +1,64 @@
+# ===========================================
+# HOMEase AI - Environment Configuration
+# ===========================================
+# Copy this file to .env.local and fill in your values
+# Command: cp ENV_TEMPLATE.txt .env.local
+# NEVER commit .env.local to Git!
+
+# -------------------------------------------
+# Firebase Configuration (Client-side)
+# Get from: Firebase Console > Project Settings > Your apps
+# Your project: homease-ai-prod-98385
+# -------------------------------------------
+NEXT_PUBLIC_FIREBASE_API_KEY=
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=homease-ai-prod-98385.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=homease-ai-prod-98385
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=homease-ai-prod-98385.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=
+NEXT_PUBLIC_FIREBASE_APP_ID=
+
+# -------------------------------------------
+# Firebase Admin SDK (Server-side)
+# Get from: Firebase Console > Project Settings > Service Accounts > Generate New Private Key
+# Download the JSON file and extract these two values:
+# -------------------------------------------
+FIREBASE_CLIENT_EMAIL=
+FIREBASE_PRIVATE_KEY=
+
+# IMPORTANT: Keep the quotes and \n characters in FIREBASE_PRIVATE_KEY!
+# Example: "-----BEGIN PRIVATE KEY-----\nMIIE...\n-----END PRIVATE KEY-----\n"
+
+# -------------------------------------------
+# NextAuth Configuration
+# -------------------------------------------
+NEXTAUTH_URL=http://localhost:3000
+NEXTAUTH_SECRET=
+# Generate with: openssl rand -base64 32
+
+# -------------------------------------------
+# Google OAuth (Optional - for "Sign in with Google")
+# Get from: https://console.cloud.google.com/apis/credentials
+# -------------------------------------------
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
+# -------------------------------------------
+# Stripe Configuration
+# Get from: https://dashboard.stripe.com/test/apikeys
+# Use TEST keys for development!
+# -------------------------------------------
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+# -------------------------------------------
+# Google Gemini API
+# Get from: https://makersuite.google.com/app/apikey
+# -------------------------------------------
+GEMINI_API_KEY=
+
+# -------------------------------------------
+# Environment
+# -------------------------------------------
+NODE_ENV=development
+

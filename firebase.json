@@ -1,13 +1,21 @@
 {
-  "functions": {
+  "functions": [{
     "source": "functions",
+    "codebase": "default",
+    "ignore": [
+      "node_modules",
+      ".git",
+      "firebase-debug.log",
+      "firebase-debug.*.log"
+    ],
     "runtime": "nodejs20"
-  },
+  }],
   "firestore": {
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
-  "storage": {
+  "storage": [{
+    "bucket": "homease-ai-prod-98385.appspot.com",
     "rules": "storage.rules"
-  }
+  }]
 }
